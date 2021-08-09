@@ -10,7 +10,7 @@ import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensInclud
 import { Mixpanel } from "../../mixpanel/index";
 import { selectAccountId, selectBalance } from '../../reducers/account';
 import { selectTokensWithMetadataForAccountId, actions as nftActions } from '../../reducers/nft';
-import { selectTransactions } from '../../reducers/transactions';
+import { selectTransactionsByAccountId } from '../../redux/slices/transactions';
 import { actionsPendingByPrefix } from '../../utils/alerts';
 import classNames from '../../utils/classNames';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
@@ -272,7 +272,7 @@ export function Wallet({ tab, setTab }) {
     const [showLinkdropModal, setShowLinkdropModal] = useState(null);
     const accountId = useSelector(state => selectAccountId(state));
     const balance = useSelector(state => selectBalance(state));
-    const transactions = useSelector(state => selectTransactions(state));
+    const transactions = useSelector(state => selectTransactionsByAccountId(state, { accountId }));
     const dispatch = useDispatch();
     const hideExploreApps = localStorage.getItem('hideExploreApps');
     const linkdropAmount = localStorage.getItem('linkdropAmount');
@@ -346,7 +346,7 @@ export function Wallet({ tab, setTab }) {
                     <ExploreApps onClick={handleHideExploreApps}/>
                     }
                     <Activities
-                        transactions={transactions[accountId] || []}
+                        transactions={transactions}
                         accountId={accountId}
                         getTransactionStatus={getTransactionStatus}
 
