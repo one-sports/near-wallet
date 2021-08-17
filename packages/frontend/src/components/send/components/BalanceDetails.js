@@ -22,6 +22,7 @@ const BalanceDetails = ({
     return (
         <Breakdown className={classNames(['available-to-send-breakdown' , open ? 'open' : ''])}>
             <Amount
+                data-test-id="sendPageSelectedTokenBalance"
                 translateIdTitle={prefixTXEntryTitledId('availableToSend')}
                 amount={availableToSend}
                 symbol={selectedToken.symbol}
