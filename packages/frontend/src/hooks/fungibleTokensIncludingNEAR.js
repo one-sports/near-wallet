@@ -3,8 +3,8 @@ import { parseNearAmount } from 'near-api-js/lib/utils/format';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import { selectBalance } from '../reducers/account';
-import { selectTokensDetails } from '../reducers/tokens';
+import { selectAccountId, selectBalance } from '../reducers/account';
+import { selectTokensWithMetadataForAccountId } from '../redux/slices/tokens';
 import { selectNearTokenFiatValueUSD } from '../slices/tokenFiatValues';
 import { WALLET_APP_MIN_AMOUNT } from '../utils/wallet';
 
@@ -26,7 +26,8 @@ const fungibleTokensIncludingNEAR = (tokens, balance, nearTokenFiatValueUSD) => 
 
 export const useFungibleTokensIncludingNEAR = function ({ fullBalance = true }) {
     const balance = useSelector(selectBalance);
-    const tokens = useSelector(selectTokensDetails);
+    const accountId = useSelector(state => selectAccountId(state));
+    const tokens = useSelector(state => selectTokensWithMetadataForAccountId(state, { accountId }));
     const nearTokenFiatValueUSD = useSelector(selectNearTokenFiatValueUSD);
     const availableNearBalance = balance?.available;
     const totalNearBalance = balance?.total;
