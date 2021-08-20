@@ -4,15 +4,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Textfit } from 'react-textfit';
 import styled from 'styled-components';
 
-import { handleGetTokens } from '../../actions/tokens';
 import { getTransactions, getTransactionStatus } from '../../actions/transactions';
 import { useFungibleTokensIncludingNEAR } from '../../hooks/fungibleTokensIncludingNEAR';
 import { Mixpanel } from "../../mixpanel/index";
 import { selectAccountId, selectBalance } from '../../reducers/account';
 import { selectTokensWithMetadataForAccountId, actions as nftActions } from '../../reducers/nft';
 import { selectTransactions } from '../../reducers/transactions';
+import { actions as tokensActions, selectTokensLoading } from '../../redux/slices/tokens';
 import { selectLinkdropAmount, actions as linkdropActions } from '../../slices/linkdrop';
-import { actionsPendingByPrefix } from '../../utils/alerts';
 import classNames from '../../utils/classNames';
 import { SHOW_NETWORK_BANNER } from '../../utils/wallet';
 import Balance from '../common/balance/Balance';
@@ -29,6 +28,7 @@ import NFTs from './NFTs';
 import Tokens from './Tokens';
 
 const { fetchNFTs } = nftActions;
+const { fetchTokens } = tokensActions;
 const { setLinkdropAmount } = linkdropActions;
 
 const StyledContainer = styled(Container)`
@@ -296,8 +296,8 @@ export function Wallet({ tab, setTab }) {
             return;
         }
 
-        dispatch(handleGetTokens());
         dispatch(fetchNFTs({ accountId }));
+        dispatch(fetchTokens({ accountId }));
     }, [accountId]);
 
     const handleHideExploreApps = () => {
