@@ -6,7 +6,16 @@ import RawTokenAmount from '../RawTokenAmount';
 import StyledContainer from './css/Style.css';
 
 
-const Amount = ({ className, symbol, amount, decimals, translateIdTitle, translateIdInfoTooltip, showAmountAsSubtracted, "data-test-id": testId }) => {
+const Amount = ({
+    className,
+    symbol,
+    amount,
+    decimals,
+    translateIdTitle,
+    translateIdInfoTooltip,
+    showAmountAsSubtracted,
+    "data-test-id": testId,
+}) => {
     /* TODO: Handle long amounts */
     return (
         <StyledContainer className={className} data-test-id={testId}>
